@@ -38,6 +38,7 @@ router.route('/').get(getGoals).post(setGoal)
 // router.delete('/:id', deleteGoals)
 
 // we can set both (3) and (4) in one line as below
+
 router.route('/:id').put(updateGoal).delete(deleteGoals)
 
 module.exports = router;
