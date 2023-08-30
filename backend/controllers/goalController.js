@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler') // to handle async errors
 // befor use need to install express-async-handler
 
 const Goal = require('../model/goalModel')
+const User = require('../model/userModel')
 
 
 // @desc Get all goals
@@ -13,7 +14,7 @@ const Goal = require('../model/goalModel')
 
 const getGoals = asyncHandler( async (req, res) => {
 
-    const goals = await Goal.find()
+    const goals = await Goal.find( {user: req.user.id})
     //res.status(200).json({message: 'Get goals'})
     res.status(200).json(goals)
 })
@@ -31,7 +32,8 @@ const setGoal = asyncHandler( async (req, res) => {
     }
 
     const goal = await Goal.create({
-        text: req.body.text
+        text: req.body.text,
+        user: req.user.id
     })
 
     //res.status(200).json({message: 'Set goal'})
@@ -50,6 +52,21 @@ const updateGoal = asyncHandler( async (req, res) => {
         res.status(400)
         throw new Error('Goal not found')
     }
+
+    const user = await User.findById(req.user.id)
+
+    //check for user
+    if(!user) {
+        res.status(400)
+        throw new Error('User not found')
+    }
+
+    // check if user is the owner of the goal
+    if(goal.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('You are not authorized to update this goal')
+    }
+
 
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.
         body, {
@@ -71,6 +88,20 @@ const deleteGoals = asyncHandler( async (req, res) => {
     if(!goal) {
         res.status(400)
         throw new Error('Goal not found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    //check for user
+    if(!user) {
+        res.status(400)
+        throw new Error('User not found')
+    }
+
+    // check if user is the owner of the goal
+    if(goal.user.toString() !== req.user.id) {
+        res.status(401)
+        throw new Error('You are not authorized to delete this goal')
     }
 
     //await goal.remove()

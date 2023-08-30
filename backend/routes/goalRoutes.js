@@ -7,6 +7,8 @@ const {
     deleteGoals 
 } = require('../controllers/goalController');
 
+const { protect } = require('../middleware/authMiddleware');
+
 // insted of using below callback function, we can use controller 
 
 // router.get('/', (req, res) => {
@@ -23,7 +25,7 @@ const {
 
 // we can set both (1) and (2) in one line as below
 
-router.route('/').get(getGoals).post(setGoal)
+router.route('/').get(protect , getGoals).post(protect , setGoal)
 
 // router.put('/:id', (req, res) => {
 //     res.status(200).json({message: `Update goal ${req.params.id}`})
@@ -39,6 +41,6 @@ router.route('/').get(getGoals).post(setGoal)
 
 // we can set both (3) and (4) in one line as below
 
-router.route('/:id').put(updateGoal).delete(deleteGoals)
+router.route('/:id').put(protect , updateGoal).delete(protect , deleteGoals)
 
 module.exports = router;
