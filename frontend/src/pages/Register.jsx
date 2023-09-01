@@ -16,6 +16,24 @@ function Register() {
 
     const { name, email, password, password2 } = formData
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(isError){
+            toast.error(message)
+        }
+
+        if(isSuccess || user){
+            navigate('/')
+        }
+
+        dispatch(reset())
+
+    }, [ user, isError , isSuccess, message, navigate, dispatch])
+
+    const {user , isLoading , isError , isSuccess , message} = useSelector((state) => state.auth)
+
     const onChange = (e) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -25,6 +43,17 @@ function Register() {
 
     const onSubmit = (e) => {
         e.preventDefault()
+        if(password !== password2){
+            toast.error('Password do not match')
+        }else{
+            const userData = {
+                name,
+                email,
+                password
+            }
+
+            dispatch(register(userData))
+        }
     }
 
 
