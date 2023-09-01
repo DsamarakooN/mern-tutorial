@@ -46,6 +46,8 @@ function Register() {
                     placeholder='Enter Your Name' 
                     onChange={onChange}
                 />
+                </div>
+                <div className="form-group">
                 <input
                     type="email"
                     className="form-control"
@@ -55,6 +57,8 @@ function Register() {
                     placeholder='Enter Your Email'
                     onChange={onChange}
                 />
+                </div>
+                <div className="form-group">
                 <input
                     type="password"
                     className="form-control"
@@ -64,6 +68,8 @@ function Register() {
                     placeholder='Enter Your Password'
                     onChange={onChange}
                 />
+                </div>
+                <div className="form-group">
                 <input
                     type="password"
                     className="form-control"
