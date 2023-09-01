@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
 import { register , reset } from '../features/auth/authSlice'
+import Spinner from '../components/spinner'
 
 function Register() {
 
@@ -19,6 +20,8 @@ function Register() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    const {user , isLoading , isError , isSuccess , message} = useSelector((state) => state.auth)
+
     useEffect(() => {
         if(isError){
             toast.error(message)
@@ -32,7 +35,7 @@ function Register() {
 
     }, [ user, isError , isSuccess, message, navigate, dispatch])
 
-    const {user , isLoading , isError , isSuccess , message} = useSelector((state) => state.auth)
+    
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -55,6 +58,11 @@ function Register() {
             dispatch(register(userData))
         }
     }
+
+    if(isLoading){
+        return <Spinner/>
+    }
+
 
 
 
