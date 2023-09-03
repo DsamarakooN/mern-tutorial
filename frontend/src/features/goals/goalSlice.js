@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const goalSlice = createSlice({
-    name: 'goal',
+    name: 'goals',
     initialState,
     reducers: {
         reset: (state) => initialState
