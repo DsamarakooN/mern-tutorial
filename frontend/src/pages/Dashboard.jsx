@@ -15,7 +15,6 @@ function Dashboard() {
     }
   }, [user, navigate])
 
-
   return (
     <div>Dashboard</div>
   )
